@@ -113,6 +113,11 @@ type File struct {
 	filenum   int             // アップロードファイル数の上限値が格納される
 }
 
+// SaveFileFormat : 保存するファイル名のフォーマットを取得する
+func (file *File) SaveFileFormat() string {
+	return file.savefile
+}
+
 // Filenum : アップロードされたファイル数をカウント
 func (file *File) Filenum() int {
 	var filenum int
@@ -122,10 +127,11 @@ func (file *File) Filenum() int {
 	return filenum
 }
 
-func (file *File) Write() error {
+// SaveFiles : アップロードされたファイルをすべて保存する
+func (file *File) SaveFiles() error {
 	for name, headers := range file.Files() {
 		for _, header := range headers {
-			if err := header.Write(file.savefile, file.perm, file.overwrite); err != nil {
+			if err := header.SaveFile(file.savefile, file.perm, file.overwrite); err != nil {
 				return fmt.Errorf("%s: %s", name, err.Error())
 			}
 		}
@@ -229,7 +235,8 @@ type FileHeader struct {
 	*multipart.FileHeader
 }
 
-func (header *FileHeader) Write(format string, perm os.FileMode, overwrite bool) error {
+// SaveFile : 指定されたファイル名で保存する
+func (header *FileHeader) SaveFile(format string, perm os.FileMode, overwrite bool) error {
 	// ファイルオープン
 	file, err := header.Open()
 	if err != nil {

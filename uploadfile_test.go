@@ -111,7 +111,7 @@ func Test__UPLOAD_SUCCESS(t *testing.T) {
 		if err := f.LimitExceeded(); err != nil {
 			t.Fatal("LimitExceeded: Error")
 		}
-		if err := f.Write(); err != nil {
+		if err := f.SaveFiles(); err != nil {
 			t.Fatal(err)
 		}
 
@@ -272,7 +272,7 @@ func Test__UPLOAD_OVERWRITE_ERROR(t *testing.T) {
 			Overwrite: false,
 			Unique:    true,
 		})
-		if err := f.Write(); err == nil {
+		if err := f.SaveFiles(); err == nil {
 			t.Fatal("Write: Error")
 		}
 	}))
