@@ -79,7 +79,7 @@ func main() {
             fmt.Println(name)
             for _, header := range headers {
                 // ファイル保存
-                header.Write("%Y%m_filename", 0644, true)
+                header.SaveFile("%Y%m_filename", 0644, true)
                 fmt.Println(header.Filename) // ファイル名
                 fmt.Println(header.Size)     // ファイルサイズ
                 fmt.Println(header.Header)   // ヘッダ情報
